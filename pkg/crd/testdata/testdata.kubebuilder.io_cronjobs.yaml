@@ -9047,9 +9047,9 @@ spec:
                   with optional message.
                 type: string
                 x-kubernetes-validations:
+                - rule: "true"
                 - message: must have even length
                   rule: self.size() % 2 == 0
-                - rule: "true"
               stringWithEvenLengthAndGoodPrefix:
                 description: Test of the expression-based validation on both field
                   and type.

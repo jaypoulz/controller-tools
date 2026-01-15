@@ -20,6 +20,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math"
+	"sort"
 	"strings"
 
 	apiext "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -632,6 +633,11 @@ func (m XValidation) ApplyToSchema(schema *apiext.JSONSchemaProps) error {
 		Reason:            reason,
 		FieldPath:         m.FieldPath,
 		OptionalOldSelf:   m.OptionalOldSelf,
+	})
+	// Sort XValidations by message for deterministic output.
+	// Markers are processed from a map with non-deterministic iteration order.
+	sort.Slice(schema.XValidations, func(i, j int) bool {
+		return schema.XValidations[i].Message < schema.XValidations[j].Message
 	})
 	return nil
 }
